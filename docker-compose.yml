@@ -1,0 +1,19 @@
+version: '3'
+services:
+  registry:
+    restart: always
+    image: registry:2
+    ports:
+      - 443:443
+    environment:
+      REGISTRY_HTTP_ADDR: 0.0.0.0:443
+      REGISTRY_HTTP_TLS_CERTIFICATE: /certs/server.crt
+      REGISTRY_HTTP_TLS_KEY: /certs/server.key
+      REGISTRY_AUTH: htpasswd
+      REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
+      REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
+    volumes:
+      - "/root/data:/var/lib/registry"
+      - "/root/certs:/certs"
+      - "/root/auth:/auth"
+

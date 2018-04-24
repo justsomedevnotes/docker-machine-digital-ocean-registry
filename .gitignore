@@ -1,0 +1,10 @@
+.vagrant
+.project
+*.pem
+*.crt
+*.log
+auth
+certs
+data
+notes.txt
+

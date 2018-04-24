@@ -1,8 +1,8 @@
 
-#Introduction  
+# Introduction  
 This blog is on how to standup a public docker registry on Digital Ocean using docker-machine.  Steps and examples are given below.  Everything can also be cloned from github.com/justsomedevnotes/docker-machine-digital-ocean-registry.
 
-##Pre Requisits  
+## Pre Requisits  
 - Linux host (I used a vagrant box; vagrantfile included in the repository)
 - DigitalOcean account
 - docker-machine, docker-compose, and docker (All are setup with the vagrantfile from the repository
@@ -12,7 +12,7 @@ Once you have a linux box setup and a digitalocean account, you need to retrieve
 
 
 $ export TOKEN=[token value]  
-##Step 2: Create a Droplet  
+## Step 2: Create a Droplet  
 There are various drivers you can use with docker-machine to provision a VM.  For this blog we are using the digitalocean driver.  It will provision a relatively small droplet.  Use the create docker-machine command giving it the driver, token, and a name for the instance.  
 
 $ docker-machine create --driver digitalocean --digitalocean-access-token $TOKEN registry-01  
@@ -73,7 +73,6 @@ keyUsage = keyEncipherment, dataEncipherment
 extendedKeyUsage = serverAuth
 subjectAltName = @alt_names
 basicConstraints = CA:FALSE
-
 [alt_names]
 DNS.1 = registry.corp.local  
 
@@ -138,23 +137,23 @@ $ docker-machine scp -r ./data registry-01:/root/data
 Copy the below contents to a docker-compose.yml file in your working directory and then execute the below command.  This file is also found in the github repo.  
 
 docker-compose.yml  
-version: '3'
-services:
-  registry:
-    restart: always
-    image: registry:2
-    ports:
-      - 443:443
-    environment:
-      REGISTRY_HTTP_ADDR: 0.0.0.0:443
-      REGISTRY_HTTP_TLS_CERTIFICATE: /certs/server.crt
-      REGISTRY_HTTP_TLS_KEY: /certs/server.key
-      REGISTRY_AUTH: htpasswd
-      REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
-      REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
-    volumes:
-      - "/root/data:/var/lib/registry"
-      - "/root/certs:/certs"
+version: '3'  
+services:  
+  registry:  
+    restart: always  
+    image: registry:2  
+    ports:  
+      - 443:443  
+    environment:  
+      REGISTRY_HTTP_ADDR: 0.0.0.0:443  
+      REGISTRY_HTTP_TLS_CERTIFICATE: /certs/server.crt  
+      REGISTRY_HTTP_TLS_KEY: /certs/server.key  
+      REGISTRY_AUTH: htpasswd  
+      REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd  
+      REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm  
+    volumes:  
+      - "/root/data:/var/lib/registry"  
+      - "/root/certs:/certs"  
       - "/root/auth:/auth"  
 
 $ docker-compose up -d  
@@ -172,5 +171,5 @@ $ docker tag busybox:latest registry.corp.local/busybox:0.9
 $ docker push registry.corp.local/busybox:0.9  
 
 
-## Resources:  
+## Resources  
 

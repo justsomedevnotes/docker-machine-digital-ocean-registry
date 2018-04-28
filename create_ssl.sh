@@ -3,8 +3,8 @@ set -e
 
 # create certs, auth, and data directories
 
-rm -rf auth certs data
-mkdir auth certs data
+rm -rf certs data
+mkdir certs data
 # generate private rsa key
 openssl genrsa -out ca-privkey.pem 2048
 # create the certificate from the key
@@ -41,6 +41,3 @@ sudo update-ca-certificates
 echo "INFO: restarting docker"
 sudo service docker restart
 
-# add testuser for basic auth
-echo "INFO: adding testuser"
-docker run --entrypoint htpasswd registry:2 -Bbn testuser testpassword > auth/htpasswd

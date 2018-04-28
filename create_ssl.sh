@@ -2,6 +2,7 @@
 set -e
 
 # create certs, auth, and data directories
+
 rm -rf auth certs data
 mkdir auth certs data
 # generate private rsa key
